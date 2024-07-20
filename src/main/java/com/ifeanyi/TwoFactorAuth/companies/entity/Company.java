@@ -17,5 +17,5 @@ public class Company {
     private String password;
     private String displayImg;
     private String description;
-    private List<String> accountVerified;//can be duplicate
+    private List<AccountsVerified> accountsVerified;//can be duplicate
 }
