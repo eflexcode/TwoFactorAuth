@@ -27,4 +27,15 @@ public class UniversalExceptionHandle extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<CustomError> handleNotFoundExceptionException(NotFoundException exception, WebRequest webRequest){
+
+        CustomError error = new CustomError();
+        error.setStatusCode(HttpStatus.NOT_FOUND.value());
+        error.setMessage(exception.getMessage());
+        error.setTimestamp(new Date());
+
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
+
 }

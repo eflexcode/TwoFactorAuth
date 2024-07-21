@@ -1,5 +1,6 @@
 package com.ifeanyi.TwoFactorAuth.companies.controller;
 
+import com.ifeanyi.TwoFactorAuth.companies.entity.AccountsVerified;
 import com.ifeanyi.TwoFactorAuth.companies.entity.Company;
 import com.ifeanyi.TwoFactorAuth.companies.model.CompanyModel;
 import com.ifeanyi.TwoFactorAuth.companies.service.CompanyService;
@@ -31,6 +32,11 @@ public class CompanyController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id) throws NotFoundException {
-         companyService.delete(id);
+        companyService.delete(id);
+    }
+
+    @PutMapping("accounts_verified/{id}")
+    public void addAccountVerified(@PathVariable String id, @RequestBody AccountsVerified accountsVerified) throws NotFoundException {
+        companyService.addAccountVerified(id, accountsVerified);
     }
 }

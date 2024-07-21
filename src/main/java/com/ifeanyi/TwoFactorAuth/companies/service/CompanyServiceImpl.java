@@ -1,6 +1,5 @@
 package com.ifeanyi.TwoFactorAuth.companies.service;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.ifeanyi.TwoFactorAuth.companies.entity.AccountsVerified;
 import com.ifeanyi.TwoFactorAuth.companies.entity.Company;
 import com.ifeanyi.TwoFactorAuth.companies.model.CompanyModel;
@@ -9,6 +8,9 @@ import com.ifeanyi.TwoFactorAuth.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -34,7 +36,7 @@ public class CompanyServiceImpl implements CompanyService {
         company.setName(companyModel.getName() != null ? companyModel.getName() : company.getName());
         company.setEmail(companyModel.getEmail() != null ? companyModel.getEmail() : company.getEmail());
         company.setDescription(companyModel.getDescription() != null ? companyModel.getDescription() : company.getDescription());
-        company.setDisplayImg(companyModel.getDisplayImg() != null ? companyModel.getDisplayImg() : company.getDisplayImg());
+        company.setDisplayImgUrl(companyModel.getDisplayImgUrl() != null ? companyModel.getDisplayImgUrl() : company.getDisplayImgUrl());
         company.setPassword(companyModel.getPassword() != null ? companyModel.getPassword() : company.getPassword());
 
         return companyRepo.save(company);
@@ -44,13 +46,23 @@ public class CompanyServiceImpl implements CompanyService {
     public void addAccountVerified(String id, AccountsVerified accountsVerified) throws NotFoundException {
 
         Company company = get(id);
-        company.getAccountsVerified().add(accountsVerified);
-        companyRepo.save(company);
 
+        if (company.getAccountsVerified() == null){
+            List<AccountsVerified> verifieds = new ArrayList<>();
+            verifieds.add(accountsVerified);
+            company.setAccountsVerified(verifieds);
+        }else {
+            company.getAccountsVerified().add(accountsVerified);
+        }
+
+        companyRepo.save(company);
     }
 
     @Override
     public AccountsVerified getAccountsVerified(String id, int lastPosition, int pageSize) {
+
+
+
         return null;
     }
 
