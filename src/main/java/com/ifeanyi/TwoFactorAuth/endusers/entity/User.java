@@ -1,4 +1,4 @@
-package com.ifeanyi.TwoFactorAuth.endusers.model;
+package com.ifeanyi.TwoFactorAuth.endusers.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
