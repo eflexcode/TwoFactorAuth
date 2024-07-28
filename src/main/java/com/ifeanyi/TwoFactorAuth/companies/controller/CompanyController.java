@@ -35,8 +35,8 @@ public class CompanyController {
         companyService.delete(id);
     }
 
-    @PutMapping("accounts_verified/{id}")
-    public void addAccountVerified(@PathVariable String id, @RequestBody AccountsVerified accountsVerified) throws NotFoundException {
-        companyService.addAccountVerified(id, accountsVerified);
-    }
+//    @PutMapping("accounts_verified/{id}")
+//    public void addAccountVerified(@PathVariable String id, @RequestBody AccountsVerified accountsVerified) throws NotFoundException {
+//        companyService.addAccountVerified(id, accountsVerified);
+//    }
 }
