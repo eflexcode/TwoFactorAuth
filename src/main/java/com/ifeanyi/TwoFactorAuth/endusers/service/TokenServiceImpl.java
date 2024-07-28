@@ -2,11 +2,15 @@ package com.ifeanyi.TwoFactorAuth.endusers.service;
 
 import com.ifeanyi.TwoFactorAuth.endusers.entity.Token;
 import com.ifeanyi.TwoFactorAuth.endusers.model.TokenModel;
+import com.ifeanyi.TwoFactorAuth.endusers.model.TokenResponse;
 import com.ifeanyi.TwoFactorAuth.endusers.repository.TokenRepo;
 import com.ifeanyi.TwoFactorAuth.exception.NotFoundException;
+import com.ifeanyi.TwoFactorAuth.exception.TokenExpiredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +33,24 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public Token getByToken(String token) throws NotFoundException {
-        return tokenRepo.findByToken(token).orElseThrow(() -> new NotFoundException("No Token found with id: " + token));
+    public TokenResponse verify(String token, String companyId) throws NotFoundException, TokenExpiredException {
+        Token tokenClass = tokenRepo.findByToken(token).orElseThrow(() -> new NotFoundException("No Token found with id: " + token));
+
+        if (!tokenClass.getCompanyId().equals(companyId)){
+            throw new NotFoundException("Company id did not match");
+        }
+
+        Date tokenDate = tokenClass.getExpireTime();
+        Date now = new Date();
+
+        if (tokenDate.before(now)){
+            throw new TokenExpiredException("Token expired");
+        }
+
+
+
+
+        return new TokenResponse("success",200);
     }
 
     @Override
@@ -39,7 +59,7 @@ public class TokenServiceImpl implements TokenService {
         Token token = get(id);
         token.setCompanyId(tokenModel.getCompanyId() != null ? tokenModel.getCompanyId() : token.getCompanyId());
         token.setOwnerId(tokenModel.getOwnerId() != null ? tokenModel.getOwnerId() : token.getOwnerId());
-        token.setExpireTime(tokenModel.getExpireTime() != null ? tokenModel.getExpireTime() : token.getExpireTime());
+        token.setExpireTime(new Date(System.currentTimeMillis()+60000));
         token.setToken(tokenModel.getToken() != null ? tokenModel.getToken() : token.getToken());
 
         return tokenRepo.save(token);

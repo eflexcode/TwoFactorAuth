@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document
 @Data
 public class Token {
@@ -12,7 +14,8 @@ public class Token {
     private String id;
     private String ownerId;
     private String CompanyId;
+    private String accountId;//email or whatever
     private String token;
-    private String expireTime;
+    private Date expireTime;
 
 }
