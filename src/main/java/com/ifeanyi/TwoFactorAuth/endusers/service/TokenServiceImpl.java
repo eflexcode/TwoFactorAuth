@@ -30,7 +30,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Token getByToken(String token) throws NotFoundException {
-        return tokenRepo.findByToken(token);
+        return tokenRepo.findByToken(token).orElseThrow(() -> new NotFoundException("No Token found with id: " + token));
     }
 
     @Override
