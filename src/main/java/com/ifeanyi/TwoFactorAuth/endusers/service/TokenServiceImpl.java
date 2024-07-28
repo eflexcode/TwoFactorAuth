@@ -1,5 +1,7 @@
 package com.ifeanyi.TwoFactorAuth.endusers.service;
 
+import com.ifeanyi.TwoFactorAuth.companies.entity.AccountsVerified;
+import com.ifeanyi.TwoFactorAuth.companies.service.CompanyService;
 import com.ifeanyi.TwoFactorAuth.endusers.entity.Token;
 import com.ifeanyi.TwoFactorAuth.endusers.model.TokenModel;
 import com.ifeanyi.TwoFactorAuth.endusers.model.TokenResponse;
@@ -17,6 +19,7 @@ import java.util.Date;
 public class TokenServiceImpl implements TokenService {
 
     private final TokenRepo tokenRepo;
+    private final CompanyService companyService;
 
     @Override
     public Token createToken(TokenModel tokenModel) {
@@ -47,8 +50,7 @@ public class TokenServiceImpl implements TokenService {
             throw new TokenExpiredException("Token expired");
         }
 
-
-
+        companyService.addAccountVerified(companyId,new AccountsVerified(tokenClass.getOwnerId(),new Date()));
 
         return new TokenResponse("success",200);
     }
