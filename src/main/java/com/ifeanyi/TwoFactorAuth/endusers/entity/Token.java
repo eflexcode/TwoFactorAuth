@@ -13,7 +13,7 @@ public class Token {
     @Id
     private String id;
     private String ownerId;
-    private String CompanyId;
+    private String companyId;
     private String accountId;//email or whatever
     private String token;
     private Date expireTime;

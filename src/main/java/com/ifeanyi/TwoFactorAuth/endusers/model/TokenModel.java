@@ -10,7 +10,8 @@ import java.util.Date;
 public class TokenModel {
 
     private String ownerId;
-    private String CompanyId;
+    private String companyId;
+    private String accountId;//email or whatever
     private String token;
     private Date expireTime;
 
